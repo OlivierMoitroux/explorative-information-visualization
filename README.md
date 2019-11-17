@@ -24,6 +24,8 @@
 
 
 ### Relevant columns explanation
+[Table generator](https://www.tablesgenerator.com/markdown_tables#)
+
 
 | **Keep** | **Column name**                                     | **Explanation**                                                   |
 |:--------:|-----------------------------------------------------|-------------------------------------------------------------------|
