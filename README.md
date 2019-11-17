@@ -3,10 +3,10 @@
 ## Project 1: Global Terrorism Database analysis
 
 
-#### Source
+### Source
 * [kaggle dataset](https://www.kaggle.com/START-UMD/gtd/data)
 
-#### Content
+### Content
 
 **Geography:** Worldwide
 
