@@ -44,7 +44,7 @@
 |     1    | ``attacktype<1-2-3>_txt -> attack_type<1-2-3>``     | general method of attack and broad class of tactics used          |
 |     0    | ``targtype<1-2-3> -> target_type<1-2-3>_id``        | ?                                                                 |
 |     1    | ``targtype<1-2-3>_txt -> targer_type<1-2-3>``       | general type of target/victim                                     |
-|     0    | ``targsubtype<1-2-3> -> targ_subtype<1-2-3>_id`     | ?                                                                 |
+|     0    | ``targsubtype<1-2-3> -> targ_subtype<1-2-3>_id``    | ?                                                                 |
 |     0    | ``targsubtype<1-2-3>_txt -> target_subtype<1-2-3>`` | more specific target category                                     |
 |     0    | ``natlty<1-2-3> -> natlty<1-2-3>_target_id``        | ?                                                                 |
 |     1    | ``natlty<1-2-3>_txt-> natlty<1-2-3>_target``        | nationality of the target that was attacked                       |
