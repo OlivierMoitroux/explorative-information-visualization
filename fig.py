@@ -26,7 +26,7 @@ REMOVE_FAILED_KILLED_ATTEMPTS = False
 REMOVE_UNKNOWN_KILLED = False
 REMOVE_FAILED_WOUNDED_ATTEMPTS = False
 REMOVE_UNKNOWN_WOUNDED = False
-REMOVE_FAILED_CASUALITIES = True # -> influence a LOT the plto !! (cfr. USA VS
+REMOVE_FAILED_CASUALITIES = False # -> influence a LOT the plto !! (cfr. USA VS
 #  UK)
 
 pd.set_option('display.max_columns', None)
@@ -154,7 +154,8 @@ myColorScale2 = [ [0,"rgb(5, 10, 172)"],[0.35,"rgb(40, 60, 190)"],[0.5,
 #                   Building dashboard visualization                     #
 # ====================================================================== #
 
-data = data[0:1000]
+# data = data[0:1000]
+data = data[data["year"]==2001]
 
 # Frequency for each countries
 freq = data
@@ -223,28 +224,29 @@ fig.add_trace(
                   # "attack_type"] does not work unfortunately
                   marker=dict(
                       # colorscale = scl,
-                      colorscale="Portland", #"Viridis", "Portland", "YlOrRd"
-                      color=data['casualities'],
+                      showscale=True,
+                      colorscale="Portland", #"Viridis", "Portland", "YlOrRd", 'RdBu'
+                      color=np.log(data['casualities']), # np.log
                       reversescale = False,
                       autocolorscale = False,
                         colorbar=dict(
-                                    title={"text": "Casualities",
+                                    title={"text": "log(casualities)",
                                            "side":"top"},
-                                     x=0.57,
+                                    x=0.57,
                                     y = 0.55,
                                     xanchor= 'center',
 
-                            yanchor="middle",
+                                    yanchor="middle",
 
                                 ),
                       # color="crimson",
 
                       size=8, # 4
                       opacity=0.8,
-                      line = dict(
-                                  width=1,
-                                  color='rgba(102, 102, 102)'
-                              ),
+                      # line = dict(
+                      #             width=1,
+                      #             color='rgba(102, 102, 102)'
+                      #         ),
 
 
                   ),
@@ -280,7 +282,7 @@ fig.add_trace(
 # Add locations bar chart
 fig.add_trace(
     go.Bar(x=freq["country"][0:10],y=freq["events"][0:10], marker=dict(
-        color="crimson"), name="Number of attacks", showlegend=True),
+        color="crimson"), name="Number of attacks", showlegend=False),
     row=1, col=2
 )
 
@@ -288,7 +290,7 @@ fig.add_trace(
 
 fig.add_trace(
     go.Histogram(
-        x=data["country"], name="number of events"
+        x=data["country"], name="number of events", showlegend=False
     ),
     row=2, col=2
 )
@@ -349,11 +351,12 @@ fig.update_layout(
                     showarrow=False,
                     x= 0.82,
                     y = 1.025,
-                    font= {"size": 18},
+                    font= {"size": 15},
                     xanchor= 'center',
             yref="paper",
                     yanchor="top",
-                    text= '<b>Number of attacks</b>'
+                    text= '<b>Top 10 countries with highest number of '
+                          'attacks</b>'
             # https://codepen.io/mdnasirfardoush/pen/gjovjO?editors=1010
                 ),
     ],
