@@ -310,7 +310,7 @@ fig.add_trace(
         values = attackTypeFreq["freq"],
         name="Attack type",
         showlegend=True,
-        hole=.2,
+        hole=.3,
     ),
     row=2, col=2
 )
@@ -378,7 +378,17 @@ legend=dict(x=0.85, y=.05),
             xref="paper",
             yref="paper",
             x=0,
-            y=-0.1),
+            y=-0.05),
+
+        go.layout.Annotation(
+            text="<b>Total: </b>{} attacks".format(attackTypeFreq[
+                                                      "freq"].sum()),
+            showarrow=False,
+            font= {"size": 18},
+            xref="paper",
+            yref="paper",
+            x=1.009, #.75 .95 if no attack in name
+            y=0), # .18
         # DOES NOT WORK unfortunately
         # go.layout.Annotation(
         #     xref= 'subplot',

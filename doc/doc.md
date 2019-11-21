@@ -10,6 +10,12 @@
     '#bcbd22',  # curry yellow-green
     '#17becf'   # blue-teal
 ]
+
+
+[Callbacks, buttons, ...](https://dash.plot.ly/getting-started-part-2)
+[Selection events](https://plot.ly/python/selection-events/)
+[Slection of stuff](https://plot.ly/python/selection-events/)
+
 [lasso button](https://community.plot
 .ly/t/any-way-to-choose-the-lasso-select-tool
 -programatically-with-api/7834)
