@@ -11,7 +11,7 @@
     '#17becf'   # blue-teal
 ]
 
-
+[dash ](https://plot.ly/dash/)
 hovertemplate
 Parent: data[type=scatter]
 Type: string or array of strings

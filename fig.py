@@ -2,6 +2,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import os
 import pandas as pd
+import plotly
 
 import plotly.express as px
 
@@ -164,17 +165,26 @@ freq = freq.country.value_counts().reset_index().rename(columns={
     "country":"events", "index": "country"})
 print(freq.head(10))
 
+
+attackTypeFreq = data
+attackTypeFreq = data.attack_type.value_counts().astype('int32').reset_index().rename(columns={
+    "index":"attack", "attack_type": "freq"})
+
+attackTypeFreq = attackTypeFreq.astype({'freq': 'int32'})
+
+
 # Initialize figure with subplots
 fig = make_subplots(
     rows=2, cols=2,
     column_widths=[0.6, 0.4],
     row_heights=[0.55, 0.45],
     specs=[[{"type": "scattergeo", "rowspan": 2}, {"type": "bar"}],
-           [            None                    , {"type": "xy"}]],
+           [            None                    , {"type": "domain"}]],
+    # {"type": "xy"}
     #subplot_titles=["hello", "hello", "hello"] # API VERY BUGGY
     # animation_frame=data["year"]
 )
-
+# fig.update_traces(hole=.4, hoverinfo="label+percent+name")
 
 
 
@@ -287,20 +297,43 @@ fig.add_trace(
 )
 
 
-
 fig.add_trace(
-    go.Histogram(
-        x=data["country"], name="number of events", showlegend=False
+    go.Pie(
+        labels = attackTypeFreq["attack"],
+        values = attackTypeFreq["freq"],
+        name="Attack type",
+        showlegend=True,
+        hole=.2,
     ),
     row=2, col=2
 )
+
+# create 3 columns with different proportion and {"colspan": 2} for plot
+
+
+
+# https://plot.ly/python/pie-charts/
 #
-# # Add 3d surface of volcano
 # fig.add_trace(
-#     go.Surface(z=df_v.values.tolist(), showscale=False),
+#     go.Treemap(
+#         labels = ["a","a","a","a","a","a","a","a","a"],#attackTypeFreq[
+# # "attack"],
+#         # parents = attackTypeFreq["attack"],
+#         values = [795,578,144,140,126,45,39,14,4],
+#         #attackTypeFreq["freq"],
+#         branchvalues='total',
+#         name="Type of attacks", showlegend=False
+#         # hovertemplate='<b>%{label} </b> <br> Frequency: %{value}<br>'
+#     ), row=2, col=2
+# )
+
+# fig.add_trace(
+#     go.Histogram(
+#         x=data["country"], name="number of events", showlegend=False
+#     ),
 #     row=2, col=2
 # )
-#
+
 
 # Update geo subplot properties
 fig.update_geos(
@@ -329,6 +362,8 @@ fig.update_xaxes(tickangle=45)
 fig.update_layout(
     template="plotly_dark",
     margin=dict(r=10, t=80, b=40, l=10),
+legend_orientation="v",
+legend=dict(x=1, y=.05),
     annotations=[
         go.layout.Annotation(
             text="Source: Global Terrorism Database (GTD - Kaggle)",
@@ -378,7 +413,8 @@ fig.update_layout(
 # xanchor: "auto" | "left" | "center" | "right"
 )
 
-fig.show()
+# fig.show()
+plotly.offline.plot(fig, filename='index.html')
 
 
 #
