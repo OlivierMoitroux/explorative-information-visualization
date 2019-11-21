@@ -431,7 +431,7 @@ legend=dict(x=0.85, y=.05),
 )
 
 # fig.show()
-plotly.offline.plot(fig, filename='index.html')
+plotly.offline.plot(fig, filename='output/index.html')
 
 
 #
