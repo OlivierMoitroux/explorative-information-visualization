@@ -10,7 +10,9 @@
     '#bcbd22',  # curry yellow-green
     '#17becf'   # blue-teal
 ]
-
+[lasso button](https://community.plot
+.ly/t/any-way-to-choose-the-lasso-select-tool
+-programatically-with-api/7834)
 [dash ](https://plot.ly/dash/)
 hovertemplate
 Parent: data[type=scatter]

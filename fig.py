@@ -175,15 +175,22 @@ attackTypeFreq = attackTypeFreq.astype({'freq': 'int32'})
 
 # Initialize figure with subplots
 fig = make_subplots(
-    rows=2, cols=2,
-    column_widths=[0.6, 0.4],
+    rows=2, cols=3,
+    column_widths=[0.6, 0.3, 0.1],
     row_heights=[0.55, 0.45],
-    specs=[[{"type": "scattergeo", "rowspan": 2}, {"type": "bar"}],
-           [            None                    , {"type": "domain"}]],
+    specs=[[{"type": "scattergeo", "rowspan": 2}, {"type": "bar",
+                                                   "colspan":2}, None],
+           [            None                    , {"type": "domain"}, None]
+           ],
     # {"type": "xy"}
     #subplot_titles=["hello", "hello", "hello"] # API VERY BUGGY
     # animation_frame=data["year"]
 )
+# [[{"type": "scattergeo", "rowspan": 2}, {"type": "bar"}],
+#            [            None                    , {"type": "domain"}]]
+
+
+
 # fig.update_traces(hole=.4, hoverinfo="label+percent+name")
 
 
@@ -363,7 +370,7 @@ fig.update_layout(
     template="plotly_dark",
     margin=dict(r=10, t=80, b=40, l=10),
 legend_orientation="v",
-legend=dict(x=1, y=.05),
+legend=dict(x=0.85, y=.05),
     annotations=[
         go.layout.Annotation(
             text="Source: Global Terrorism Database (GTD - Kaggle)",
