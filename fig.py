@@ -15,13 +15,14 @@ import numpy as np  # linear algebra
 # https://community.plot.ly/t/multiple-plots-running-on-frames/8235/6
 # https://plot.ly/~empet/15012/animating-subplots-with-more-than-one-t/#/
 # https://community.plot.ly/t/multiple-traces-in-multiple-animation-plots/15019
+# https://plot.ly/python/animations/
+# # https://plot.ly/python/range-slider/
 #https://plot.ly/~harry11733/105/#code
 
 
 # ====================================================================== #
 #                    Hyperparameters of the visualization                #
 # ====================================================================== #
-# COlorscale
 
 REMOVE_FAILED_KILLED_ATTEMPTS = False
 REMOVE_UNKNOWN_KILLED = False
@@ -151,18 +152,22 @@ myColorBar=dict(
 # Scale color
 myColorScale2 = [ [0,"rgb(5, 10, 172)"],[0.35,"rgb(40, 60, 190)"],[0.5,
 "rgb(70, 100, 245)"],[0.6,"rgb(90, 120, 245)"],[0.7,"rgb(106, 137, 247)"],[1,"rgb(220, 220, 220)"] ]
+
+
 # ====================================================================== #
-#                   Building dashboard visualization                     #
+#                   Preprocessing of dataframe                           #
 # ====================================================================== #
 
+raw_data = data.copy()
 # data = data[0:1000]
-data = data[data["year"]==2001]
+data = raw_data[raw_data["year"]==2001]
 
 # Frequency for each countries
 freq = data
 # test = freq.country.value_counts().reset_index()
 freq = freq.country.value_counts().reset_index().rename(columns={
     "country":"events", "index": "country"})
+# freq = freq.country.value_counts()
 print(freq.head(10))
 
 
@@ -171,6 +176,14 @@ attackTypeFreq = data.attack_type.value_counts().astype('int32').reset_index().r
     "index":"attack", "attack_type": "freq"})
 
 attackTypeFreq = attackTypeFreq.astype({'freq': 'int32'})
+
+data["hash_attack_type"] = data["attack_type"].apply(hash)
+attackTypeFreq["hash_attack_type"] = attackTypeFreq["attack"].apply(hash)
+
+# ====================================================================== #
+#                   Building dashboard visualization  (UI)               #
+# ====================================================================== #
+
 
 
 # Initialize figure with subplots
@@ -182,19 +195,7 @@ fig = make_subplots(
                                                    "colspan":2}, None],
            [            None                    , {"type": "domain"}, None]
            ],
-    # {"type": "xy"}
-    #subplot_titles=["hello", "hello", "hello"] # API VERY BUGGY
-    # animation_frame=data["year"]
 )
-# [[{"type": "scattergeo", "rowspan": 2}, {"type": "bar"}],
-#            [            None                    , {"type": "domain"}]]
-
-
-
-# fig.update_traces(hole=.4, hoverinfo="label+percent+name")
-
-
-
 
 
 # Add terrorism events locations on globe map
@@ -202,13 +203,13 @@ fig.add_trace(
     go.Scattergeo(lat=data["lat"],
                   lon=data["long"],
                   mode="markers",
-                hoverinfo='text',
-                  # hovertext=data["country"], # $%{y:.2f}
-                  #   hovertemplate =
-                  #       '<b>Country</b>: %{text}<br>'+
-                  #       '<i>Casualities</i>: %{marker.color:,}<br>',
-                  # text = data["country"], # $%{y:.2f}
+                  ids= data["hash_attack_type"],
+                  # selectedpoints=data["country"],
+# Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type.
 
+                # fill, fillcolor,
+
+                hoverinfo='text',
                   text=['<b>Country</b>: {}<br>'.format(cntry)\
                         +'<i>Attack type</i>: {}<br>'.format(atype)
                         +'<i>Casualities</i>: {}<br>'.format(cas)\
@@ -222,19 +223,6 @@ fig.add_trace(
                           list(data["nwounded"])
                          )
                         ],
-
-
-
-
-
-#
-#
-# ['(sepal length: '+'{:.2f}'.format(sl)+', sepal width:'+'{:.2f}'.format(sw)+')'+
-#   '<br>(petal length: '+'{:.2f}'.format(pl)+', petal width:'+'{:.2f}'.format(pw)+')'
-#   for sl, sw, pl, pw in zip(list(df['sepal length (cm)']), list(df['sepal width (cm)']),
-#                            list(df['petal length (cm)']), list(df['petal width (cm)'])) ]
-
-
 
                   showlegend=False,
                   name= "Attack", # would appear on hover otherwise. data[
@@ -252,44 +240,13 @@ fig.add_trace(
                                     x=0.57,
                                     y = 0.55,
                                     xanchor= 'center',
-
                                     yanchor="middle",
-
+                                    len=0.96
                                 ),
-                      # color="crimson",
-
                       size=8, # 4
                       opacity=0.8,
-                      # line = dict(
-                      #             width=1,
-                      #             color='rgba(102, 102, 102)'
-                      #         ),
-
-
                   ),
-
-
                   # animation_frame="year"
-
-                  # marker = dict(
-                  #             size = 8,
-                  #             opacity = 0.8,
-                  #             reversescale = True,
-                  #             autocolorscale = False,
-                  #             symbol = 'square',
-                  #             line = dict(
-                  #                 width=1,
-                  #                 color='rgba(102, 102, 102)'
-                  #             ),
-                  #             colorscale = scl,
-                  #             cmin = 0,
-                  #             color = df['cnt'],
-                  #             cmax = df['cnt'].max(),
-                  #             colorbar=dict(
-                  #                 title="Incoming flightsFebruary 2011"
-                  #             )
-
-
     ), # ,
     # symbol="asterisk" ) -> does not work
     row=1, col=1
@@ -309,6 +266,7 @@ fig.add_trace(
         labels = attackTypeFreq["attack"],
         values = attackTypeFreq["freq"],
         name="Attack type",
+        ids= attackTypeFreq["hash_attack_type"],
         showlegend=True,
         hole=.3,
     ),
@@ -353,6 +311,7 @@ fig.update_geos(
     showcountries=True,
     showrivers = True,
     rivercolor = '#99c0db'
+
 )
 
 
@@ -367,6 +326,37 @@ fig.update_xaxes(tickangle=45)
 
 # Set theme, margin, and annotation in layout
 fig.update_layout(
+
+    # https://plot.ly/python/reference/#layout-sliders
+    # https://plot.ly/python/reference/#layout-updatemenus
+    # adding a play button on the top right
+    updatemenus=[dict(
+                type="buttons",
+                buttons=[dict(label="Play",
+                              method="animate",
+                              args=[None])],
+                font=dict(color="black")
+
+    )
+
+    ],
+
+sliders = [{'yanchor': 'top', 'xanchor': 'left', 'currentvalue': {'font': {'size': 16}, 'prefix': 'Frame: ', 'visible': True, 'xanchor': 'right'}, 'transition': {'duration': 500.0, 'easing': 'linear'}, 'pad': {'b': 10, 't': 50}, 'len': 0.9, 'x': 0.1, 'y': 0,
+                    'steps': [{'args': [['0'], {'frame': {'duration': 500.0, 'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '0', 'method': 'animate'},
+                              {'args': [['1'], {'frame': {'duration': 500.0, 'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '1', 'method': 'animate'},
+                              {'args': [['2'], {'frame': {'duration': 500.0, 'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '2', 'method': 'animate'},
+                              {'args': [['3'], {'frame': {'duration': 500.0,
+                                                          'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '3', 'method': 'animate'},]}],
+
+    # frames= [go.Frame(data=[]),
+    #         go.Frame(data=[go.Scatter(x=[1, 4], y=[1, 4])]),
+    #         go.Frame(data=[go.Scatter(x=[3, 4], y=[3, 4])],
+    #                  layout=go.Layout(title_text="End Title"))],
+
+
+
+
+
     template="plotly_dark",
     margin=dict(r=10, t=80, b=40, l=10),
 legend_orientation="v",
