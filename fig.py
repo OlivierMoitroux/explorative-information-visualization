@@ -185,7 +185,6 @@ attackTypeFreq["hash_attack_type"] = attackTypeFreq["attack"].apply(hash)
 # ====================================================================== #
 
 
-
 # Initialize figure with subplots
 fig = make_subplots(
     rows=2, cols=3,
@@ -330,28 +329,62 @@ fig.update_layout(
     # https://plot.ly/python/reference/#layout-sliders
     # https://plot.ly/python/reference/#layout-updatemenus
     # adding a play button on the top right
-    updatemenus=[dict(
-                type="buttons",
-                buttons=[dict(label="Play",
-                              method="animate",
-                              args=[None])],
-                font=dict(color="black")
+    # updatemenus=[dict(
+    #             type="buttons",
+    #             buttons=[dict(label="Play",
+    #                           method="animate",
+    #                           args=[None])],
+    #             font=dict(color="black")
+    #
+    # )
+    #
+    # ],
 
-    )
+updatemenus = [{'buttons': [{'args': [[str(i) for i in raw_data[
+    "year"].unique()],
+                                      {'frame': {
+    'duration': 500.0, 'redraw': False}, 'fromcurrent': True, 'transition':
+    {'duration': 0, 'easing': 'linear'}}], 'label': 'Play', 'method':
+    'animate'}, {'args': [[None], {'frame': {'duration': 0, 'redraw': False}, 'mode': 'immediate', 'transition': {'duration': 0}}], 'label': 'Pause', 'method': 'animate'}], 'direction': 'left', 'pad': {'r': 10, 't': 85}, 'showactive': True, 'type': 'buttons', 'x': 0.1, 'y': 0, 'xanchor': 'right', 'yanchor': 'top',  "font":dict(color="black")}],
 
-    ],
+sliders = [{'yanchor': 'top', 'xanchor': 'left', 'currentvalue': {'font': {
+    'size': 16}, 'prefix': 'Year: ', 'visible': True, 'xanchor': 'right'},
+            'transition': {'duration': 500.0, 'easing': 'linear'}, 'pad': {'b': 10, 't': 50}, 'len': 0.9, 'x': 0.1, 'y': 0,
+                    'steps': [{'args': [[str(i)], {'frame': {'duration': 500.0,
+                                                        'easing': 'linear',
+                                                        'redraw': False},
+                                              'transition': {'duration': 0,
+                                                             'easing':
+                                                                 'linear'}}], 'label': str(i), 'method': 'animate'} for i in raw_data["year"].unique()]
+            }],
+                    # 'steps': [{'args': [['0'], {'frame': {'duration': 500.0, 'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '0', 'method': 'animate'},
+                    #           {'args': [['1'], {'frame': {'duration': 500.0, 'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '1', 'method': 'animate'},
+                    #           {'args': [['2'], {'frame': {'duration': 500.0, 'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '2', 'method': 'animate'},
+                    #           {'args': [['3'], {'frame': {'duration': 500.0,
+                    #                                       'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '3', 'method': 'animate'},]}],
 
-sliders = [{'yanchor': 'top', 'xanchor': 'left', 'currentvalue': {'font': {'size': 16}, 'prefix': 'Frame: ', 'visible': True, 'xanchor': 'right'}, 'transition': {'duration': 500.0, 'easing': 'linear'}, 'pad': {'b': 10, 't': 50}, 'len': 0.9, 'x': 0.1, 'y': 0,
-                    'steps': [{'args': [['0'], {'frame': {'duration': 500.0, 'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '0', 'method': 'animate'},
-                              {'args': [['1'], {'frame': {'duration': 500.0, 'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '1', 'method': 'animate'},
-                              {'args': [['2'], {'frame': {'duration': 500.0, 'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '2', 'method': 'animate'},
-                              {'args': [['3'], {'frame': {'duration': 500.0,
-                                                          'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '3', 'method': 'animate'},]}],
-
-    # frames= [go.Frame(data=[]),
-    #         go.Frame(data=[go.Scatter(x=[1, 4], y=[1, 4])]),
-    #         go.Frame(data=[go.Scatter(x=[3, 4], y=[3, 4])],
-    #                  layout=go.Layout(title_text="End Title"))],
+    # frames=[
+    #     {'name': '0', 'layout': {},
+    #      'data': [
+    #          {'type': 'scattergeo', 'name': 'scattergeo',
+    #           'x': [-2., -1., 0.01, 1., 2., 3.], 'y': [5, 8, 3, 2, 4, 0],
+    #           'hoverinfo': 'name+text',
+    #           'marker': {'opacity': 1.0, 'symbol': 'circle',
+    #                      'line': {'width': 0, 'color': 'rgba(50,50,50,0.8)'}},
+    #           'line': {'color': 'rgba(255,79,38,1.000000)'},
+    #           'mode': 'markers+lines', 'fillcolor': 'rgba(255,79,38,0.600000)',
+    #           'legendgroup': 'f1', 'showlegend': True, 'xaxis': 'x1',
+    #           'yaxis': 'y1'},
+    #          {'type': 'scatter', 'name': 'f2',
+    #           'x': [-2., -1., 0.01, 1., 2., 3.], 'y': [3, 7, 4, 8, 5, 9],
+    #           'hoverinfo': 'name+text',
+    #           'marker': {'opacity': 1.0, 'symbol': 'circle',
+    #                      'line': {'width': 0, 'color': 'rgba(50,50,50,0.8)'}},
+    #           'line': {'color': 'rgba(79,102,165,1.000000)'},
+    #           'mode': 'markers+lines',
+    #           'fillcolor': 'rgba(79,102,165,0.600000)', 'legendgroup': 'f2',
+    #           'showlegend': True, 'xaxis': 'x2', 'yaxis': 'y2'}],
+    #      },],
 
 
 
