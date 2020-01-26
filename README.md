@@ -5,8 +5,8 @@
 ### HOW TO
 1. **Download the dataset:** download from
    [link](https://www.kaggle.com/START-UMD/gtd/data) to **/data**
-* **Generate the visualization:** ``python3 fig.py``
-* **See the visulization:** generate it or visit
+2. **Generate the visualization:** ``python3 fig.py``
+3. **See the visulization:** generate it or visit
   [](https://oliviermoitroux .github.io/eiv)
 
 ### Git organization
