@@ -2,11 +2,19 @@
 
 ## Project 1: Global Terrorism Database analysis
 
+### Code
 
-### Source
+Requirements: pandas, plotly
+
+1. Download data from [kaggle dataset](https://www.kaggle.com/START-UMD/gtd/data) in/data folder
+2. Run ```python3 fig.py```
+
+### Data
+
+#### Source
 * [kaggle dataset](https://www.kaggle.com/START-UMD/gtd/data)
 
-### Content
+#### Content
 
 **Geography:** Worldwide
 
@@ -23,7 +31,7 @@
 "The threatened or actual use of illegal force and violence by a non-state actor to attain a political, economic, religious, or social goal through fear, coercion, or intimidation.
 
 
-### Relevant columns explanation
+#### Relevant columns explanation
 [Table generator](https://www.tablesgenerator.com/markdown_tables#)
 
 
@@ -57,3 +65,6 @@
 |     0    | ``nperpcap``                                        | ?                                                                 |
 |     1    | ``weaptype<1-2-3> -> weap_type<1-2-3>_id``          | Weapon type for the attack                                        |
 |     1    | ``nkill``                                           | number of total confirmed fatalities for the incident             |
+
+### Result overview
+![](output/draft_visualization.jpg)

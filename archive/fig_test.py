@@ -40,7 +40,7 @@ pd.set_option('display.max_columns', None)
 print("Listing data folder ...\n")
 terrorismDataPath = None
 
-for dirname, _, filenames in os.walk('./data'):
+for dirname, _, filenames in os.walk('../data'):
     for filename in filenames:
         print(filename)
         if "terrorism" in filename:
