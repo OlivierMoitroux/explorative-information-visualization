@@ -75,3 +75,7 @@ visualization.
 |     0    | ``nperpcap``                                        | ?                                                                 |
 |     1    | ``weaptype<1-2-3> -> weap_type<1-2-3>_id``          | Weapon type for the attack                                        |
 |     1    | ``nkill``                                           | number of total confirmed fatalities for the incident             |
+
+## Result
+
+![screenshot_visualization.jpg](Report/screenshot_visualization.jpg)
