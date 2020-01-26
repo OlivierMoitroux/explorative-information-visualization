@@ -7,7 +7,7 @@
    [link](https://www.kaggle.com/START-UMD/gtd/data) to **/data**
 2. **Generate the visualization:** ``python3 fig.py``
 3. **See the visulization:** generate it or visit
-  [](https://oliviermoitroux .github.io/eiv)
+   [my website](https://oliviermoitroux.github.io/eiv)
 
 ### Git organization
 * **/data:** Contain the raw dataset
