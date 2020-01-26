@@ -7,17 +7,6 @@ import plotly
 import plotly.express as px
 
 import numpy as np  # linear algebra
-# https://plot.ly/python/v3/mixed-subplots/
-# ====================================================================== #
-#                     Documentation                                      #
-# ====================================================================== #
-# Timer:
-# https://community.plot.ly/t/multiple-plots-running-on-frames/8235/6
-# https://plot.ly/~empet/15012/animating-subplots-with-more-than-one-t/#/
-# https://community.plot.ly/t/multiple-traces-in-multiple-animation-plots/15019
-# https://plot.ly/python/animations/
-# # https://plot.ly/python/range-slider/
-#https://plot.ly/~harry11733/105/#code
 
 
 # ====================================================================== #
@@ -104,64 +93,20 @@ print("After cleaning, terrorism dataset has {} rows. Removed {}\% of "
                     (nRowsAfterFiltering/nRowsOriginal)*100))
 
 # ====================================================================== #
-#                   Personalization                                      #
-# ====================================================================== #
-
-myColorScale=[
-        # Let first 10% (0.1) of the values have color rgb(0, 0, 0)
-        [0, "rgb(0, 0, 0)"],
-        [0.1, "rgb(0, 0, 0)"],
-
-        # Let values between 10-20% of the min and max of z
-        # have color rgb(20, 20, 20)
-        [0.1, "rgb(20, 20, 20)"],
-        [0.2, "rgb(20, 20, 20)"],
-
-        # Values between 20-30% of the min and max of z
-        # have color rgb(40, 40, 40)
-        [0.2, "rgb(40, 40, 40)"],
-        [0.3, "rgb(40, 40, 40)"],
-
-        [0.3, "rgb(60, 60, 60)"],
-        [0.4, "rgb(60, 60, 60)"],
-
-        [0.4, "rgb(80, 80, 80)"],
-        [0.5, "rgb(80, 80, 80)"],
-
-        [0.5, "rgb(100, 100, 100)"],
-        [0.6, "rgb(100, 100, 100)"],
-
-        [0.6, "rgb(120, 120, 120)"],
-        [0.7, "rgb(120, 120, 120)"],
-
-        [0.7, "rgb(140, 140, 140)"],
-        [0.8, "rgb(140, 140, 140)"],
-
-        [0.8, "rgb(160, 160, 160)"],
-        [0.9, "rgb(160, 160, 160)"],
-
-        [0.9, "rgb(180, 180, 180)"],
-        [1.0, "rgb(180, 180, 180)"]
-    ]
-myColorBar=dict(
-        tick0=0,
-        dtick=1
-    )
-
-
-# Scale color
-myColorScale2 = [ [0,"rgb(5, 10, 172)"],[0.35,"rgb(40, 60, 190)"],[0.5,
-"rgb(70, 100, 245)"],[0.6,"rgb(90, 120, 245)"],[0.7,"rgb(106, 137, 247)"],[1,"rgb(220, 220, 220)"] ]
-
-
-# ====================================================================== #
 #                   Preprocessing of dataframe                           #
 # ====================================================================== #
 
 raw_data = data.copy()
-# data = data[0:1000]
-data = raw_data[raw_data["year"]==2001]
 
+
+
+
+
+
+
+
+
+data=raw_data[raw_data["year"]==2001]
 # Frequency for each countries
 freq = data
 # test = freq.country.value_counts().reset_index()
@@ -203,10 +148,6 @@ fig.add_trace(
                   lon=data["long"],
                   mode="markers",
                   ids= data["hash_attack_type"],
-                  # selectedpoints=data["country"],
-# Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type.
-
-                # fill, fillcolor,
 
                 hoverinfo='text',
                   text=['<b>Country</b>: {}<br>'.format(cntry)\
@@ -224,8 +165,7 @@ fig.add_trace(
                         ],
 
                   showlegend=False,
-                  name= "Attack", # would appear on hover otherwise. data[
-                  # "attack_type"] does not work unfortunately
+                  name= "Attack",
                   marker=dict(
                       # colorscale = scl,
                       showscale=True,
@@ -245,9 +185,7 @@ fig.add_trace(
                       size=8, # 4
                       opacity=0.8,
                   ),
-                  # animation_frame="year"
-    ), # ,
-    # symbol="asterisk" ) -> does not work
+    ),
     row=1, col=1
 )
 
@@ -272,33 +210,6 @@ fig.add_trace(
     row=2, col=2
 )
 
-# create 3 columns with different proportion and {"colspan": 2} for plot
-
-
-
-# https://plot.ly/python/pie-charts/
-#
-# fig.add_trace(
-#     go.Treemap(
-#         labels = ["a","a","a","a","a","a","a","a","a"],#attackTypeFreq[
-# # "attack"],
-#         # parents = attackTypeFreq["attack"],
-#         values = [795,578,144,140,126,45,39,14,4],
-#         #attackTypeFreq["freq"],
-#         branchvalues='total',
-#         name="Type of attacks", showlegend=False
-#         # hovertemplate='<b>%{label} </b> <br> Frequency: %{value}<br>'
-#     ), row=2, col=2
-# )
-
-# fig.add_trace(
-#     go.Histogram(
-#         x=data["country"], name="number of events", showlegend=False
-#     ),
-#     row=2, col=2
-# )
-
-
 # Update geo subplot properties
 fig.update_geos(
     projection_type="orthographic",
@@ -313,12 +224,6 @@ fig.update_geos(
 
 )
 
-
-# colorbar(title = 'GDP (log)') %>%
-#      layout(title = '', geo = g)
-
-
-
 # Rotate x-axis labels
 fig.update_xaxes(tickangle=45)
 
@@ -326,26 +231,20 @@ fig.update_xaxes(tickangle=45)
 # Set theme, margin, and annotation in layout
 fig.update_layout(
 
-    # https://plot.ly/python/reference/#layout-sliders
-    # https://plot.ly/python/reference/#layout-updatemenus
-    # adding a play button on the top right
-    # updatemenus=[dict(
-    #             type="buttons",
-    #             buttons=[dict(label="Play",
-    #                           method="animate",
-    #                           args=[None])],
-    #             font=dict(color="black")
-    #
-    # )
-    #
-    # ],
+updatemenus = [
+    {'buttons': [{'args': [[str(i) for i in raw_data["year"].unique()],
+                    {'frame': {
+                    'duration': 700.0, 'redraw': False}, 'fromcurrent': True,
+                    'transition':{'duration': 0, 'easing': 'linear'}}],
+                    'label': 'Play', 'method':'animate'},
 
-updatemenus = [{'buttons': [{'args': [[str(i) for i in raw_data[
-    "year"].unique()],
-                                      {'frame': {
-    'duration': 500.0, 'redraw': False}, 'fromcurrent': True, 'transition':
-    {'duration': 0, 'easing': 'linear'}}], 'label': 'Play', 'method':
-    'animate'}, {'args': [[None], {'frame': {'duration': 0, 'redraw': False}, 'mode': 'immediate', 'transition': {'duration': 0}}], 'label': 'Pause', 'method': 'animate'}], 'direction': 'left', 'pad': {'r': 10, 't': 85}, 'showactive': True, 'type': 'buttons', 'x': 0.1, 'y': 0, 'xanchor': 'right', 'yanchor': 'top',  "font":dict(color="black")}],
+                 {'args': [[None],
+                    {'frame': {'duration': 0, 'redraw': False}, 'mode':
+                    'immediate', 'transition': {'duration': 0}}],
+                  'label': 'Pause',
+                  'method': 'animate'}],
+     'direction': 'left', 'pad': {'r': 10, 't': 85}, 'showactive': True, 'type': 'buttons', 'x': 0.1, 'y': 0, 'xanchor': 'right', 'yanchor': 'top',  "font":dict(color="black")}
+],
 
 sliders = [{'yanchor': 'top', 'xanchor': 'left', 'currentvalue': {'font': {
     'size': 16}, 'prefix': 'Year: ', 'visible': True, 'xanchor': 'right'},
@@ -357,12 +256,8 @@ sliders = [{'yanchor': 'top', 'xanchor': 'left', 'currentvalue': {'font': {
                                                              'easing':
                                                                  'linear'}}], 'label': str(i), 'method': 'animate'} for i in raw_data["year"].unique()]
             }],
-                    # 'steps': [{'args': [['0'], {'frame': {'duration': 500.0, 'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '0', 'method': 'animate'},
-                    #           {'args': [['1'], {'frame': {'duration': 500.0, 'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '1', 'method': 'animate'},
-                    #           {'args': [['2'], {'frame': {'duration': 500.0, 'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '2', 'method': 'animate'},
-                    #           {'args': [['3'], {'frame': {'duration': 500.0,
-                    #                                       'easing': 'linear', 'redraw': False}, 'transition': {'duration': 0, 'easing': 'linear'}}], 'label': '3', 'method': 'animate'},]}],
 
+    # example to use frames:
     # frames=[
     #     {'name': '0', 'layout': {},
     #      'data': [
@@ -387,13 +282,10 @@ sliders = [{'yanchor': 'top', 'xanchor': 'left', 'currentvalue': {'font': {
     #      },],
 
 
-
-
-
     template="plotly_dark",
     margin=dict(r=10, t=80, b=40, l=10),
-legend_orientation="v",
-legend=dict(x=0.85, y=.05),
+    legend_orientation="v",
+    legend=dict(x=0.85, y=.05),
     annotations=[
         go.layout.Annotation(
             text="Source: Global Terrorism Database (GTD - Kaggle)",
@@ -412,14 +304,7 @@ legend=dict(x=0.85, y=.05),
             yref="paper",
             x=1.009, #.75 .95 if no attack in name
             y=0), # .18
-        # DOES NOT WORK unfortunately
-        # go.layout.Annotation(
-        #     xref= 'subplot',
-        #     subplot= [1],
-        #     x= 0.5,
-        #     xanchor= 'center',
-        #     text= 'Hello'
-        # ),
+
 
         go.layout.Annotation(
                     xref= 'paper',
@@ -445,21 +330,7 @@ legend=dict(x=0.85, y=.05),
       "yref": 'container',
       "font": {"size": 30}
     },
-    # title = {'text':"My title", "font": {"size": 30}, "xanchor":"auto",
-    #          "xref":"container"}
-    # title=go.layout.Title(text="A Bar Chart",
-    #                           font=go.layout.title.Font(size=30)))
-    # title_text="Worldwide terrorism across time", title_font_size=30
-# xanchor: "auto" | "left" | "center" | "right"
 )
 
 # fig.show()
 plotly.offline.plot(fig, filename='output/index.html')
-
-
-#
-# import plotly.express as px
-# gapminder = px.data.gapminder()
-# px.scatter(gapminder, x="gdpPercap", y="lifeExp", animation_frame="year", animation_group="country",
-#            size="pop", color="continent", hover_name="country",
-#            log_x=True, size_max=55, range_x=[100,100000], range_y=[25,90])

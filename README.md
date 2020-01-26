@@ -2,19 +2,29 @@
 
 ## Project 1: Global Terrorism Database analysis
 
-### Code
+### HOW TO
+1. **Download the dataset:** download from
+   [link](https://www.kaggle.com/START-UMD/gtd/data) to **/data**
+* **Generate the visualization:** ``python3 fig.py``
+* **See the visulization:** generate it or visit
+  [](https://oliviermoitroux .github.io/eiv)
 
-Requirements: pandas, plotly
+### Git organization
+* **/data:** Contain the raw dataset
+* **/dev:** private development tests
+* **/output:** containes a screenshot of the visualization as well as the html 
+visualization.
+* **/Report:** the report
+* _fig.py:_ the code to generate the visualization
 
-1. Download data from [kaggle dataset](https://www.kaggle.com/START-UMD/gtd/data) in/data folder
-2. Run ```python3 fig.py```
 
-### Data
+### About the dataset
 
-#### Source
+### Source
 * [kaggle dataset](https://www.kaggle.com/START-UMD/gtd/data)
 
-#### Content
+
+### Content
 
 **Geography:** Worldwide
 
@@ -31,7 +41,7 @@ Requirements: pandas, plotly
 "The threatened or actual use of illegal force and violence by a non-state actor to attain a political, economic, religious, or social goal through fear, coercion, or intimidation.
 
 
-#### Relevant columns explanation
+### Relevant columns explanation
 [Table generator](https://www.tablesgenerator.com/markdown_tables#)
 
 
@@ -65,6 +75,3 @@ Requirements: pandas, plotly
 |     0    | ``nperpcap``                                        | ?                                                                 |
 |     1    | ``weaptype<1-2-3> -> weap_type<1-2-3>_id``          | Weapon type for the attack                                        |
 |     1    | ``nkill``                                           | number of total confirmed fatalities for the incident             |
-
-### Result overview
-![](output/draft_visualization.jpg)
